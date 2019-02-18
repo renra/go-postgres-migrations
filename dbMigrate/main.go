@@ -4,18 +4,15 @@ import (
   "fmt"
   "database/sql"
   "github.com/rubenv/sql-migrate"
+  i "app/interfaces"
 )
-
-type Logger interface {
-  Log(string)
-}
 
 const (
   Down = "down"
   DBType = "postgres"
 )
 
-func Run(conn *sql.DB, direction string, migrationsDir string, logger Logger) {
+func Run(conn *sql.DB, direction string, migrationsDir string, logger i.Logger) {
   migrations := &migrate.FileMigrationSource{
     Dir: migrationsDir,
   }
