@@ -1,6 +1,7 @@
 package dbMigrate
 
 import (
+  "os"
   "fmt"
   "database/sql"
   "github.com/rubenv/sql-migrate"
@@ -11,6 +12,14 @@ const (
   Down = "down"
   DBType = "postgres"
 )
+
+func GetDirection() string {
+  if len(os.Args) > 1 {
+    return os.Args[1]
+  } else {
+    return ""
+  }
+}
 
 func Run(conn *sql.DB, direction string, migrationsDir string, logger i.Logger) {
   migrations := &migrate.FileMigrationSource{
