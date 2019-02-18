@@ -2,7 +2,7 @@ version: "3"
 services:
   app:
     build: .
-    command: make examples
+    command: make
     environment:
       - SHELL=/bin/sh
       - POSTGRES_PORT=5432

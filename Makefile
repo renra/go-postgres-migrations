@@ -6,7 +6,8 @@ dep:
 
 .PHONY: clean
 clean:
-	rm -rf ${BINS}/dbMigrate
+	rm -rf ${BINS}/migrate
+	rm -rf ${BINS}/newMigration
 
 db_migrate:
 	go build -o ${BINS}/migrate ${SOURCES}/examples/dbMigrate/main.go

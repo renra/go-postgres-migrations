@@ -11,5 +11,5 @@ COPY ./ ${DIR}/
 
 RUN make dep
 
-CMD ["make", "dev"]
+CMD ["make"]
 
