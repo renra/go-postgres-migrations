@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    build: .
+    command: make
+    environment:
+      - SHELL=/bin/sh
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=migrations
+    volumes:
+      - ./interfaces:/go/src/app/interfaces
+      - ./dbMigrate/:/go/src/app/dbMigrate/
+      - ./dbNewMigration/:/go/src/app/dbNewMigration
+      - ./examples/:/go/src/app/examples/
+      - ./migrations/:/go/src/app/migrations/
+      - ./Makefile:/go/src/app/Makefile
+      - ./Gopkg.toml:/go/src/app/Gopkg.toml
+      - ./Gopkg.lock:/go/src/app/Gopkg.lock
+    links:
+      - db
+
+  db:
+    image: renra/postgres:9.4.12
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
