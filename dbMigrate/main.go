@@ -5,7 +5,6 @@ import (
   "fmt"
   "database/sql"
   "github.com/rubenv/sql-migrate"
-  i "app/interfaces"
 )
 
 const (
@@ -21,7 +20,11 @@ func GetDirection() string {
   }
 }
 
-func Run(conn *sql.DB, direction string, migrationsDir string, logger i.Logger) {
+type Logger interface {
+  Log(string)
+}
+
+func Run(conn *sql.DB, direction string, migrationsDir string, logger Logger) {
   migrations := &migrate.FileMigrationSource{
     Dir: migrationsDir,
   }

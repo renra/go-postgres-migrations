@@ -4,10 +4,13 @@ import (
   "fmt"
   "time"
   "io/ioutil"
-  i "app/interfaces"
 )
 
-func Run(name string, migrationsDir string, logger i.Logger) {
+type Logger interface {
+  Log(string)
+}
+
+func Run(name string, migrationsDir string, logger Logger) {
   // no idea why this number, but it outputs the current timestamp
   timeStamp := time.Now().Format("20060102150405")
 
