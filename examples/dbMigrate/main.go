@@ -15,14 +15,6 @@ func (l *Logger) Log(msg string) {
   fmt.Println(msg)
 }
 
-func getDirection() string {
-  if len(os.Args) > 1 {
-    return os.Args[1]
-  } else {
-    return ""
-  }
-}
-
 func main() {
   logger := &Logger{}
 
@@ -43,5 +35,5 @@ func main() {
 
   migrationsDir := "migrations"
 
-  dbMigrate.Run(conn, getDirection(), migrationsDir, logger)
+  dbMigrate.Run(conn, dbMigrate.GetDirection(), migrationsDir, logger)
 }
