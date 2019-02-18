@@ -1,6 +1,6 @@
 FROM golang:1.10.7-alpine
 
-RUN apk update && apk add make dep git
+RUN apk update && apk add make dep git postgresql-client
 
 ENV DIR ${GOPATH}/src/app
 

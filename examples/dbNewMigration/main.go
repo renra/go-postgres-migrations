@@ -18,7 +18,7 @@ func main() {
     panic("You had better give me a file name for your migration")
   }
 
-  migrationsDir := "examples"
+  migrationsDir := "migrations"
   migName := os.Args[1]
   logger := &Logger{}
 

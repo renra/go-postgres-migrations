@@ -9,6 +9,7 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=migrations
     volumes:
       - ./dbMigrate/:/go/src/app/dbMigrate/
       - ./dbNewMigration/:/go/src/app/dbNewMigration
@@ -17,6 +18,8 @@ services:
       - ./Makefile:/go/src/app/Makefile
       - ./Gopkg.toml:/go/src/app/Gopkg.toml
       - ./Gopkg.lock:/go/src/app/Gopkg.lock
+    links:
+      - db
 
   db:
     image: renra/postgres:9.4.12

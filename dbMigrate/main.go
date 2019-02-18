@@ -1,43 +1,45 @@
-package main
+package dbMigrate
 
 import (
-  "os"
   "fmt"
-  "app/app/db"
+  "database/sql"
   "github.com/rubenv/sql-migrate"
-  "app/app/config"
 )
 
-func main() {
-  config := config.Load()
+type Logger interface {
+  Log(string)
+}
 
-  conn := db.Connect(config)
-  defer conn.Close()
+const (
+  Down = "down"
+  DBType = "postgres"
+)
 
+func Run(conn *sql.DB, direction string, migrationsDir string, logger Logger) {
   migrations := &migrate.FileMigrationSource{
-    Dir: config.GetString("migrations_dir"),
+    Dir: migrationsDir,
   }
 
-  if len(os.Args) > 1 && os.Args[1] == "down" {
-    n, err := migrate.ExecMax(conn, "postgres", migrations, migrate.Down, 1)
+  if direction == Down {
+    n, err := migrate.ExecMax(conn, DBType, migrations, migrate.Down, 1)
 
     if err != nil {
       panic(err)
     }
 
     if n == 1 {
-      fmt.Println("Rolled back successfully")
+      logger.Log("Rolled back successfully")
     } else {
-      fmt.Println("Nothing to roll back")
+      logger.Log("Nothing to roll back")
     }
 
   } else {
-    n, err := migrate.Exec(conn, "postgres", migrations, migrate.Up)
+    n, err := migrate.Exec(conn, DBType, migrations, migrate.Up)
 
     if err != nil {
       panic(err)
     }
 
-    fmt.Printf("Applied %d migrations!\n", n)
+    logger.Log(fmt.Sprintf("Applied %d migrations!\n", n))
   }
 }
